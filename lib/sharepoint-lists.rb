@@ -99,7 +99,22 @@ module Sharepoint
     include Sharepoint::Type
     belongs_to :list
 
-    method :break_role_inheritance, default_params: ({ copyroleassignements: true })
+    def add_role_assignment group_id, role_definition_id
+      uri = "#{__metadata['uri']}/roleassignments/addroleassignment(principalid=#{group_id},roleDefId=#{role_definition_id})"
+      @site.query :post, uri
+    end
+
+    def remove_role_assignment group_id, role_definition_id
+      uri = "#{__metadata['uri']}/roleassignments/removeroleassignment(principalid=#{group_id},roleDefId=#{role_definition_id})"
+      @site.query :post, uri
+    end
+
+    def break_role_inheritance copy_role_definitions=true
+      uri = "#{__metadata['uri']}/BreakRoleInheritance(#{copy_role_definitions ? 'true' : 'false'})"
+      @site.query :post, uri
+    end
+
+
     method :recycle
     method :reset_role_inheritance
     method :validate_update_item_list

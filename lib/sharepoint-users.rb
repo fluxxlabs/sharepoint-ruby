@@ -22,6 +22,15 @@ module Sharepoint
 
   class RoleDefinition < Sharepoint::Object
     include Sharepoint::Type
+    sharepoint_resource getter: :roledefinitions
+
+  end
+
+  class ListItem < Sharepoint::Object
+    include Sharepoint::Type
+    sharepoint_resource
+
+    method :break_role_inheritance, default_params: ({ copyroleassignements: true })
   end
 
   class GenericSharepointObject < Sharepoint::Object

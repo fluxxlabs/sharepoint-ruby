@@ -120,6 +120,8 @@ module Sharepoint
       klass      = constant.const_get type_name rescue nil
       if klass
         klass.new self, data
+      elsif data['__metadata']['uri'] =~ /\/Lists\(guid'([0-9abcdef-]*)\'\)\/Items/
+        Sharepoint::ListItem.new(self, data)
       else
         Sharepoint::GenericSharepointObject.new type_name, self, data
       end
